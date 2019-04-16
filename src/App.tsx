@@ -1,15 +1,21 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { Component, SyntheticEvent, FormEvent } from 'react';
 import './App.css';
+import {SearchBar} from './components/SearchBar'
 export interface AppState {data: string;}
 
 class App extends Component<any, any> {
   constructor(props: any){
     super(props)
     this.state = {
-    data: "default"
+    searchUrl: "default"
     }
   }
+onSearch = (e: React.FormEvent<HTMLFormElement>): void => {
+  e.preventDefault();
+  let target = e.currentTarget.searchQuery.value;
+  this.setState({searchUrl:target})
+}
+
   render() {
     return (
       <div className="container-fluid">
@@ -24,7 +30,7 @@ class App extends Component<any, any> {
         <div className="row">
           <div className="col-12">
             <main className="content-section">
-              {/* This is the search results area */}
+              <SearchBar onSearch={this.onSearch}/>
             </main>
           </div>
         </div>
