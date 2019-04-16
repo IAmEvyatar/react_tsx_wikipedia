@@ -1,7 +1,6 @@
 import React, { Component, SyntheticEvent, FormEvent } from 'react';
 import './App.css';
 import {SearchBar} from './components/SearchBar'
-export interface AppState {data: string;}
 
 class App extends Component<any, any> {
   constructor(props: any){
@@ -12,7 +11,7 @@ class App extends Component<any, any> {
   }
 onSearch = (e: React.FormEvent<HTMLFormElement>): void => {
   e.preventDefault();
-  let target = e.currentTarget.searchQuery.value;
+  let target:string = e.currentTarget.searchQuery.value;
   this.setState({searchUrl:target})
 }
 
