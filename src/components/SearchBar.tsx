@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
-export interface IFormProps {onSearch: (e:React.FormEvent<HTMLFormElement>)=>void;}
+interface IFormProps {onSearch:(data:Object)=>void}
 export class SearchBar extends Component<IFormProps> {
-    render(){
+    //React.FormEvent<HTMLFormElement>
+formHandler: (e: React.FormEvent<HTMLFormElement>)=>void = (e)=>{
+    e.preventDefault();
+    const searchQuery = e.currentTarget.searchQuery.value;
+    const searchURL = `https://cors-anywhere.herokuapp.com/https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${searchQuery}&format=json`
+    fetch(searchURL)
+    .then((res)=>res.json())
+    .then((res)=>this.props.onSearch(res))
+    // .then((res) => console.log(res.json()))
+}
+render(){
         return(
-            <form action="" onSubmit={this.props.onSearch}>
-              <input type="text" name="searchQuery"/>
-              <button type="submit">submit</button>
+            <form action="" onSubmit={this.formHandler}>
+              <input className="form-control" type="text" name="searchQuery"/>
+              <button className="btn btn-success" type="submit">submit</button>
             </form>
         )
     }

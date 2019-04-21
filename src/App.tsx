@@ -1,19 +1,19 @@
 import React, { Component, SyntheticEvent, FormEvent } from 'react';
 import './App.css';
 import {SearchBar} from './components/SearchBar'
-
-class App extends Component<any, any> {
+import {SearchResults} from './components/SearchResults'
+class App extends Component<{},{data:Object}> {
   constructor(props: any){
     super(props)
     this.state = {
-    searchUrl: "default"
+    data:{}
     }
   }
-onSearch = (e: React.FormEvent<HTMLFormElement>): void => {
-  e.preventDefault();
-  let target:string = e.currentTarget.searchQuery.value;
-  this.setState({searchUrl:target})
+
+onSearch = (data:Object) => {
+  this.setState({data})
 }
+
 
   render() {
     return (
@@ -28,9 +28,14 @@ onSearch = (e: React.FormEvent<HTMLFormElement>): void => {
         </div>
         <div className="row">
           <div className="col-12">
-            <main className="content-section">
+            <aside className="content-section">
               <SearchBar onSearch={this.onSearch}/>
-            </main>
+            </aside>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-12">
+              <SearchResults data={this.state.data}/>
           </div>
         </div>
       </div>
