@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { request } from 'http';
-interface ISearchResultsProps {data:any}
+interface IResultsDisplayProps {data:any}
 
-export class SearchResults extends Component<ISearchResultsProps> {
+export class ResultsDsiplay extends Component<IResultsDisplayProps> {
     render(){
         if(this.props.data.query){
             const a = this.props.data.query.search.map((el: any,i:number)=>{

@@ -1,16 +1,17 @@
 import React, { Component, SyntheticEvent, FormEvent } from 'react';
 import './App.css';
 import {SearchBar} from './components/SearchBar'
-import {SearchResults} from './components/SearchResults'
-class App extends Component<{},{data:Object}> {
+import {ResultsDsiplay} from './components/ResultsDisplay'
+class App extends Component<{},{data:Object,favorites:Array<Object>}> {
   constructor(props: any){
     super(props)
     this.state = {
-    data:{}
+    data:{},
+    favorites:[]
     }
   }
 
-onSearch = (data:Object) => {
+onSearch: (data:Object) => void = (data) => {
   this.setState({data})
 }
 
@@ -35,7 +36,7 @@ onSearch = (data:Object) => {
         </div>
         <div className="row">
           <div className="col-12">
-              <SearchResults data={this.state.data}/>
+              <ResultsDsiplay data={this.state.data}/>
           </div>
         </div>
       </div>
