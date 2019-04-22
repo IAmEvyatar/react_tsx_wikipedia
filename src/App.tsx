@@ -2,19 +2,22 @@ import React, { Component, SyntheticEvent, FormEvent } from 'react';
 import './App.css';
 import {SearchBar} from './components/SearchBar'
 import {ResultsDsiplay} from './components/ResultsDisplay'
-class App extends Component<{},{data:Object,favorites:Array<Object>}> {
+class App extends Component<{},{data:Object,favorites:Array<Object>,displaySwitch:number}> {
   constructor(props: any){
     super(props)
     this.state = {
     data:{},
-    favorites:[]
+    favorites:[],
+    displaySwitch:0
     }
   }
 
-onSearch: (data:Object) => void = (data) => {
-  this.setState({data})
+onSearch: (data:Object,displaySwitch:number)=>void = (data,displaySwitch) => {
+  this.setState({data,displaySwitch})
 }
-
+favoritesHandler: (displaySwitch:number)=>void = (displaySwitch)=>{
+  this.setState({displaySwitch})
+}
 
   render() {
     return (
@@ -36,7 +39,7 @@ onSearch: (data:Object) => void = (data) => {
         </div>
         <div className="row">
           <div className="col-12">
-              <ResultsDsiplay data={this.state.data}/>
+              <ResultsDsiplay data={this.state.data} displaySwitch={this.state.displaySwitch}/>
           </div>
         </div>
       </div>

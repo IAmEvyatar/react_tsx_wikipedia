@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-interface IFormProps {onSearch:(data:Object)=>void}
+interface IFormProps {onSearch:(data:Object,displaySwitch:number)=>void}
 export class SearchBar extends Component<IFormProps> {
     //React.FormEvent<HTMLFormElement>
 formHandler: (e: React.FormEvent<HTMLFormElement>)=>void = (e)=>{
@@ -8,7 +8,7 @@ formHandler: (e: React.FormEvent<HTMLFormElement>)=>void = (e)=>{
     const searchURL = `https://cors-anywhere.herokuapp.com/https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${searchQuery}&format=json`
     fetch(searchURL)
     .then((res)=>res.json())
-    .then((res)=>this.props.onSearch(res))
+    .then((res)=>this.props.onSearch(res,1))
     // .then((res) => console.log(res.json()))
 }
 render(){
