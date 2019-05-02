@@ -1,26 +1,30 @@
 import React, { Component, SyntheticEvent, FormEvent } from 'react';
 import './App.css';
 import {SearchBar} from './components/SearchBar'
-import {ResultsDsiplay} from './components/ResultsDisplay'
-class App extends Component<{},{data:Object,favorites:Array<Object>,displaySwitch:number}> {
-  constructor(props: any){
+import {ResultsDisplay} from './components/ResultsDisplay'
+import Button from 'react-bootstrap/Button'
+interface IAppState {
+  favoritesData:Array<Object>,
+  searchData:Array<Object>,
+  modalStatus:boolean
+}
+class App extends Component<{},IAppState> {
+  constructor(props:any){
     super(props)
     this.state = {
-    data:{},
-    favorites:[],
-    displaySwitch:0
+    favoritesData:[],
+    searchData:[],
+    modalStatus:false
     }
   }
 
-onSearch: (data:Object,displaySwitch:number)=>void = (data,displaySwitch) => {
-  this.setState({data,displaySwitch})
-}
-favoritesHandler: (displaySwitch:number)=>void = (displaySwitch)=>{
-  this.setState({displaySwitch})
-}
+// showFavoritesButtonHandler: ()=>void =()=>{
+
+// }
 
   render() {
     return (
+      
       <div className="container-fluid">
         <div className="row">
           <div className="col-12">
@@ -30,21 +34,36 @@ favoritesHandler: (displaySwitch:number)=>void = (displaySwitch)=>{
             </header>
           </div>
         </div>
+        
         <div className="row">
           <div className="col-12">
             <aside className="content-section">
-              <SearchBar onSearch={this.onSearch}/>
+              <SearchBar onSearch={this.onSearch}/>  
+              <Button color="#efefef" onClick={()=>{this.setState({modalStatus:true})}}>Click me</Button>
+                <button type="button" className="btn btn-warning" >
+                  Favorites
+                </button>
             </aside>
           </div>
         </div>
         <div className="row">
           <div className="col-12">
-              <ResultsDsiplay data={this.state.data} displaySwitch={this.state.displaySwitch}/>
+              <ResultsDisplay currentDisplay={this.state.searchData} favoritesDataSetter={this.favoritesDataSetter} favoritesData={this.state.favoritesData}/>
           </div>
         </div>
       </div>
     )
   }
+showModal: ()=>void = () => {this.setState({modalStatus:false})}
+
+onSearch: (searchData:Array<Object>)=>void = (searchData) => {
+  this.setState({searchData})
 }
+favoritesDataSetter: (favoritesData:Array<Object>)=>void = (favoritesData)=>{
+  const dataForLocal = JSON.stringify(favoritesData)
+  this.setState({favoritesData},()=>{localStorage.setItem('favorites',dataForLocal)})
+}
+}
+
 
 export default App;
