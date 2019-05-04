@@ -12,7 +12,7 @@ export class ResultsDisplay extends Component<IResultsDisplayProps> {
     render(){
         return <div>{this.resultDisplay()}</div>
     }
-    resultDisplay:()=>any = ()=>{
+    resultDisplay = ()=>{
         const {currentDisplay,favoritesData,favoritesDataSetter} = this.props
             if(currentDisplay.length > 0){
                 const resultDsiplay:Array<Object> = currentDisplay.map((el:any)=>{

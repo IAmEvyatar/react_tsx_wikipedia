@@ -59,7 +59,7 @@ showModal: ()=>void = () => {this.setState({modalStatus:false})}
 onSearch: (searchData:Array<Object>)=>void = (searchData) => {
   this.setState({searchData})
 }
-favoritesDataSetter: (favoritesData:Array<Object>)=>void = (favoritesData)=>{
+favoritesDataSetter: (favoritesData:Array<Object>)=>void = (favoritesData) =>{
   const dataForLocal = JSON.stringify(favoritesData)
   this.setState({favoritesData},()=>{localStorage.setItem('favorites',dataForLocal)})
 }
