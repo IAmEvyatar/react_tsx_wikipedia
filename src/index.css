@@ -23,11 +23,30 @@ code {
 .star:before {
  content: "\2606";
  position: absolute;
+ top:-4vh;
+ left:2vw;
  visibility:visible;
  color:yellow;
 }
 .star:checked:before {
  content: "\2605";
  position: absolute;
+ top:-4vh;
+ left:2vw;
+ visibility:visible;
  color:yellow;
+}
+.yo {
+  display: flex;
+  flex-flow: row wrap;
+}
+.hey {
+  position:relative;
+}
+.my-form {
+  display:flex;
+  flex-flow:row wrap;
+}
+.searchbar-input {
+  width:70%;
 }

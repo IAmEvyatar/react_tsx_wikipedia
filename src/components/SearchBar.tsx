@@ -3,8 +3,8 @@ interface IFormProps {onSearch:(data:Array<Object>)=>any}
 export class SearchBar extends Component<IFormProps> {
 render(){
         return(
-            <form action="" onSubmit={this.formHandler}>
-              <input className="form-control" type="text" name="searchQuery"/>
+            <form className="my-form" action="" onSubmit={this.formHandler}>
+              <input className="form-control searchbar-input" type="text" name="searchQuery"/>
               <button className="btn btn-success" type="submit">submit</button>
             </form>
         )
@@ -16,5 +16,6 @@ render(){
         fetch(searchURL)
         .then((res)=>res.json())
         .then((res)=> this.props.onSearch(res.query.search)).catch(console.log)
+
     }
 }

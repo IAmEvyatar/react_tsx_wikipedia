@@ -2,7 +2,7 @@ import React, { Component, SyntheticEvent, FormEvent } from 'react';
 import './App.css';
 import {SearchBar} from './components/SearchBar'
 import {ResultsDisplay} from './components/ResultsDisplay'
-import Button from 'react-bootstrap/Button'
+import {Modal,Button,Container,Row,Col} from 'react-bootstrap'
 interface IAppState {
   favoritesData:Array<Object>,
   searchData:Array<Object>,
@@ -12,49 +12,65 @@ class App extends Component<{},IAppState> {
   constructor(props:any){
     super(props)
     this.state = {
-    favoritesData:[],
+    favoritesData:this.onStart(),
     searchData:[],
     modalStatus:false
     }
   }
 
-// showFavoritesButtonHandler: ()=>void =()=>{
-
-// }
 
   render() {
     return (
       
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-12">
+  <Container>
+        <Row>
+          <Col>
             <header className="head-section">
               <h1>This is Evyatar's React Wiki search!</h1>
-              {/* This is the searchbar area */}
             </header>
-          </div>
-        </div>
+          </Col>
+        </Row>
         
-        <div className="row">
-          <div className="col-12">
+        <Row>
+          <Col>
             <aside className="content-section">
               <SearchBar onSearch={this.onSearch}/>  
-              <Button color="#efefef" onClick={()=>{this.setState({modalStatus:true})}}>Click me</Button>
-                <button type="button" className="btn btn-warning" >
-                  Favorites
-                </button>
+              <Button variant="warning" onClick={()=>{this.showModal()}}>Favorites</Button>
             </aside>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-12">
-              <ResultsDisplay currentDisplay={this.state.searchData} favoritesDataSetter={this.favoritesDataSetter} favoritesData={this.state.favoritesData}/>
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+        <Row>          
+            <Col>
+              <ResultsDisplay currentDisplay={this.state.searchData} favoritesDataSetter={this.favoritesDataSetter} favoritesData={this.state.favoritesData} checked={false}/>
+          </Col>
+        </Row>
+        <Modal show={this.state.modalStatus}>
+            <Modal.Header>
+              <Modal.Title>Modal title</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+              <ResultsDisplay currentDisplay={this.state.favoritesData} favoritesDataSetter={this.favoritesDataSetter} favoritesData={this.state.favoritesData} checked={true}/>
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.closeModal}>Close</Button>
+              <Button variant="primary">Save changes</Button>
+            </Modal.Footer>
+        </Modal>
+      </Container>
     )
   }
-showModal: ()=>void = () => {this.setState({modalStatus:false})}
+onStart: ()=>Array<Object> = ()=>{
+  const startingData = localStorage.getItem('favorites')
+  if(startingData){
+    return JSON.parse(startingData)
+  } else {
+    return []
+  }
+}
+showModal: ()=>void = () => {this.setState({modalStatus:true})}
+closeModal: ()=>void = () => {this.setState({modalStatus:false})}
 
 onSearch: (searchData:Array<Object>)=>void = (searchData) => {
   this.setState({searchData})
