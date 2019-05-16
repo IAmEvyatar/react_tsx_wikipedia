@@ -1,19 +1,18 @@
 import React, { Component, SyntheticEvent, FormEvent } from 'react';
 import './App.css';
+import {MainProvider} from './components/MainContext'
+import { MainContext } from './components/MainContext'
 import {SearchBar} from './components/SearchBar'
 import {ResultsDisplay} from './components/ResultsDisplay'
 import {Modal,Button,Container,Row,Col} from 'react-bootstrap'
+
 interface IAppState {
-  favoritesData:Array<Object>,
-  searchData:Array<Object>,
   modalStatus:boolean
 }
 class App extends Component<{},IAppState> {
   constructor(props:any){
     super(props)
     this.state = {
-    favoritesData:this.onStart(),
-    searchData:[],
     modalStatus:false
     }
   }
@@ -21,8 +20,10 @@ class App extends Component<{},IAppState> {
 
   render() {
     return (
-      
-  <Container>
+<MainProvider>
+  <MainContext.Consumer>
+{(context):any =>{
+return(<Container>
         <Row>
           <Col>
             <header className="head-section">
@@ -34,14 +35,14 @@ class App extends Component<{},IAppState> {
         <Row>
           <Col>
             <aside className="content-section">
-              <SearchBar onSearch={this.onSearch}/>  
+              <SearchBar onSearch={context.onSearch}/>  
               <Button variant="warning" onClick={()=>{this.showModal()}}>Favorites</Button>
             </aside>
           </Col>
         </Row>
         <Row>          
             <Col>
-              <ResultsDisplay currentDisplay={this.state.searchData} favoritesDataSetter={this.favoritesDataSetter} favoritesData={this.state.favoritesData} checked={false}/>
+              <ResultsDisplay currentDisplay={context.state.searchData} defaultChecked={false}/>
           </Col>
         </Row>
         <Modal show={this.state.modalStatus}>
@@ -50,7 +51,7 @@ class App extends Component<{},IAppState> {
             </Modal.Header>
 
             <Modal.Body>
-              <ResultsDisplay currentDisplay={this.state.favoritesData} favoritesDataSetter={this.favoritesDataSetter} favoritesData={this.state.favoritesData} checked={true}/>
+              <ResultsDisplay currentDisplay={context.state.favoritesData} defaultChecked={true}/>
             </Modal.Body>
 
             <Modal.Footer>
@@ -58,27 +59,15 @@ class App extends Component<{},IAppState> {
               <Button variant="primary">Save changes</Button>
             </Modal.Footer>
         </Modal>
-      </Container>
+</Container>)}
+}
+      </MainContext.Consumer>
+</MainProvider>
     )
   }
-onStart: ()=>Array<Object> = ()=>{
-  const startingData = localStorage.getItem('favorites')
-  if(startingData){
-    return JSON.parse(startingData)
-  } else {
-    return []
-  }
-}
 showModal: ()=>void = () => {this.setState({modalStatus:true})}
 closeModal: ()=>void = () => {this.setState({modalStatus:false})}
 
-onSearch: (searchData:Array<Object>)=>void = (searchData) => {
-  this.setState({searchData})
-}
-favoritesDataSetter: (favoritesData:Array<Object>)=>void = (favoritesData) =>{
-  const dataForLocal = JSON.stringify(favoritesData)
-  this.setState({favoritesData},()=>{localStorage.setItem('favorites',dataForLocal)})
-}
 }
 
 
