@@ -42,7 +42,7 @@ return(<Container>
         </Row>
         <Row>          
             <Col>
-              <ResultsDisplay currentDisplay={context.state.searchData} defaultChecked={false}/>
+              <ResultsDisplay currentDisplay={context.state.searchData} defaultChecked={false} favoritesData={context.state.favoritesData}/>
           </Col>
         </Row>
         <Modal show={this.state.modalStatus}>
@@ -51,7 +51,7 @@ return(<Container>
             </Modal.Header>
 
             <Modal.Body>
-              <ResultsDisplay currentDisplay={context.state.favoritesData} defaultChecked={true}/>
+              <ResultsDisplay currentDisplay={context.state.favoritesData} defaultChecked={true} favoritesData={context.state.favoritesData}/>
             </Modal.Body>
 
             <Modal.Footer>

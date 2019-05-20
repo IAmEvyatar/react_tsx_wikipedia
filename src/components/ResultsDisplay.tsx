@@ -4,11 +4,20 @@ import { request } from 'http';
 import { FavoritesButton } from './Checkbox';
 export interface IResultsDisplayProps {
     currentDisplay:Array<Object>,
-    defaultChecked:boolean
+    defaultChecked:boolean,
+    favoritesData:Array<Object>
+}
+export interface IResultsDisplayState {
+    favoritesData:Array<Object>
 }
 
-
-    export class ResultsDisplay extends Component<IResultsDisplayProps> {
+    export class ResultsDisplay extends Component<IResultsDisplayProps,IResultsDisplayState> {
+        constructor(props:any){
+            super(props)
+            this.state = {
+                favoritesData:props.favoritesData,
+            }
+        }
         render(){
             return(
         <MainContext.Consumer>
@@ -16,15 +25,15 @@ export interface IResultsDisplayProps {
         </MainContext.Consumer>
         )}
         
-        checkboxAfterVerification:any = (context:any,currentElement:any,defaultChecked:boolean)=>{ 
+        checkboxAfterVerification:(context:any,currentElement:any,defaultChecked:boolean)=>any = (context,currentElement,defaultChecked)=>{ 
         if(!defaultChecked){
-            const isFavorite = context.state.favoritesData.findIndex((favel:any)=>favel.titleURL === currentElement.titleURL)
+            const isFavorite = this.state.favoritesData.findIndex((favel:any)=>favel.titleURL === currentElement.titleURL)
             return isFavorite >= 0 ? <FavoritesButton  currentElement={currentElement} defaultChecked={true}/> : <FavoritesButton  currentElement={currentElement} defaultChecked={false}/>
         } else {
             return <FavoritesButton  currentElement={currentElement} defaultChecked={true}/> }
         }
         
-        resultDisplay = (context:any)=>{
+        resultDisplay:(context:any)=>any = (context)=>{
             const {currentDisplay,defaultChecked} = this.props
                 if(currentDisplay.length > 0){
                     const resultDsiplay:Array<Object> = currentDisplay.map((el:any)=>{

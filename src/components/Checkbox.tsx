@@ -22,21 +22,25 @@ export class FavoritesButton extends Component<IFavoriteProps,IFavoriteState> {
             </MainContext.Consumer>
         )
     }
-    favoritesButtonHandler: (context:any)=>any = async (context)=>{
-        await this.setState({checked:!this.state.checked})
-        const {currentElement} = this.props
-        if(this.state.checked){
-                const copyOfFavorites: any = [...context.state.favoritesData]
-                copyOfFavorites.push(currentElement);
-                console.log('1')
-                return context.favoritesDataSetter(copyOfFavorites)
-        }else{
-                let copyOfFavorites: any = [...context.state.favoritesData]
-                let indexToSlice = copyOfFavorites.findIndex( (el:any) => el.title === currentElement.title)
-                console.log(copyOfFavorites,indexToSlice)
-                copyOfFavorites.splice(indexToSlice,1)
-                console.log(copyOfFavorites)
-                return context.favoritesDataSetter(copyOfFavorites)
+    favoritesButtonHandler: (context:any)=>any = (context)=>{
+        this.setState({checked:!this.state.checked},
+        ()=>{
+            const {currentElement} = this.props
+            if(this.state.checked){
+                    const copyOfFavorites: any = [...context.state.favoritesData]
+                    copyOfFavorites.push(currentElement);
+                    console.log('1')
+                    return context.favoritesDataSetter(copyOfFavorites)
+            }else{
+                    let copyOfFavorites: any = [...context.state.favoritesData]
+                    let indexToSlice = copyOfFavorites.findIndex( (el:any) => el.title === currentElement.title)
+                    console.log(copyOfFavorites,indexToSlice)
+                    copyOfFavorites.splice(indexToSlice,1)
+                    console.log(copyOfFavorites)
+                    return context.favoritesDataSetter(copyOfFavorites)
+            }
         }
+        )
+       
       }
     }
