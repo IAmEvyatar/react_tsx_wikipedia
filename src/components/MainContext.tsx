@@ -1,8 +1,20 @@
 import React from 'react';
-export const MainContext = React.createContext(undefined as any)
-export class MainProvider extends React.Component {
+
+interface IMainContextState {
+  favoritesData: any;
+  searchData: Object[];
+  modalStatus: boolean;
+}
+
+export interface IMainContext {
+  state: IMainContextState;
+  onSearch(searchData: Object[]): void;
+  favoritesDataSetter(favoritesData: Object[]): void;
+}
+export const MainContext = React.createContext<IMainContext>(undefined as any);
+export class MainProvider extends React.Component<any, IMainContextState> {
     constructor(props:any){
-        super(props)
+        super(props);
         this.state = {
         favoritesData:this.onStart(),
         searchData:[],
@@ -21,13 +33,13 @@ export class MainProvider extends React.Component {
         this.setState({searchData})
       }
       favoritesDataSetter: (favoritesData:Array<Object>)=>void = (favoritesData) =>{
-        const dataForLocal = JSON.stringify(favoritesData)
+        const dataForLocal = JSON.stringify(favoritesData);
         this.setState({favoritesData},()=>{localStorage.setItem('favorites',dataForLocal)})
       }
       render(){
           return(
             <MainContext.Provider value={{
-                state:this.state,
+                state: this.state,
                 onSearch:this.onSearch,
                 favoritesDataSetter:this.favoritesDataSetter
             }}>
