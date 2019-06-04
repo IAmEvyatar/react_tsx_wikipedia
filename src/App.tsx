@@ -31,18 +31,18 @@ return(<Container>
             </header>
           </Col>
         </Row>
-        
+
         <Row>
           <Col>
             <aside className="content-section">
-              <SearchBar onSearch={context.onSearch}/>  
+              <SearchBar onSearch={context.onSearch}/>
               <Button variant="warning" onClick={()=>{this.showModal()}}>Favorites</Button>
             </aside>
           </Col>
         </Row>
-        <Row>          
+        <Row>
             <Col>
-              <ResultsDisplay currentDisplay={context.state.searchData} defaultChecked={false} favoritesData={context.state.favoritesData}/>
+              <ResultsDisplay currentDisplay={context.state.searchData} defaultChecked={false}/>
           </Col>
         </Row>
         <Modal show={this.state.modalStatus}>
@@ -51,7 +51,7 @@ return(<Container>
             </Modal.Header>
 
             <Modal.Body>
-              <ResultsDisplay currentDisplay={context.state.favoritesData} defaultChecked={true} favoritesData={context.state.favoritesData}/>
+              <ResultsDisplay currentDisplay={context.state.favoritesData} defaultChecked={true}/>
             </Modal.Body>
 
             <Modal.Footer>
